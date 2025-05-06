@@ -44,15 +44,8 @@
 #### 方法一：通过 Git 克隆（推荐）
 
 ```
-git clone --recursive https://github.com/你的用户名/项目名.git
-cd 项目名
-```
-
-#### 方法二：手动下载
-
-1. 下载 ZIP 包
-2. 初始化子模块：
-```bash
+git clone https://github.com/NLJie/linxu_lvgl_display.git
+cd linxu_lvgl_display
 git submodule update --init --recursive
 ```
 
