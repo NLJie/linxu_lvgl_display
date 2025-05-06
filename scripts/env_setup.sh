@@ -36,16 +36,16 @@ setup_toolchain() {
             export SIZE="xtensa-esp32-elf-size"
             ;;
         d21x)
-            # 检查文件是否存在
+            # D21x 工具链配置
             if [ -f "$D21x_TOOLCHAIN_PATH" ]; then
-                print_info "文件存在: $D21x_TOOLCHAIN_PATH"
+                print_info "工具链文件存在: $D21x_TOOLCHAIN_PATH"
                 if [ ! -d "${PROJECT_ROOT}/tools/toolchains/riscv64-linux-glibc-x86_64-V2.10.1" ]; then
                     print_info "解压工具链..."
                     tar -xvf "$D21x_TOOLCHAIN_PATH" -C "${PROJECT_ROOT}/tools/toolchains/"
                 fi
                 print_success "工具链解压完成"
             else
-                print_error "文件不存在: $D21x_TOOLCHAIN_PATH"
+                print_error "工具链文件不存在: $D21x_TOOLCHAIN_PATH"
                 exit 1
             fi
         
@@ -99,10 +99,10 @@ setup_platform_libs() {
             export INPUT_LIB="${PROJECT_ROOT}/libs/arm/input"
             ;;
         d21x)
-            # ESP32 平台特定库
+            # D21x 平台特定库
             export ESP_IDF_PATH="${ESP_IDF_PATH:-/opt/esp/esp-idf}"
-            export LCD_LIB="${PROJECT_ROOT}/libs/esp32/lcd"
-            export INPUT_LIB="${PROJECT_ROOT}/libs/esp32/input"
+            export LCD_LIB="${PROJECT_ROOT}/libs/D21x/lcd"
+            export INPUT_LIB="${PROJECT_ROOT}/libs/D21x/input"
             ;;
         esp32)
             # ESP32 平台特定库
@@ -173,11 +173,30 @@ initialize() {
     # 创建构建目录
     mkdir -p "$BUILD_DIR"
     mkdir -p "$OUTPUT_DIR"
-    
+    print_info "============================================================="
     print_info "项目初始化完成"
     print_info "平台: $PLATFORM"
+    print_info "工具链: $TOOLCHAIN_PATH"
+    print_info "应用程序: $APPLICATION"
     print_info "构建目录: $BUILD_DIR"
     print_info "输出目录: $OUTPUT_DIR"
+    print_info "============================================================="
+
+    # 检查应用程序变量
+    if [ -z "$APPLICATION" ]; then
+        print_error "应用程序名称未设置，请使用 -a 选项指定应用程序"
+        exit 1
+    fi
+    # 搜索应用程序目录
+    APP_DIR="${PROJECT_ROOT}/Application/${APPLICATION}"
+    if [ ! -d "$APP_DIR" ]; then
+        print_error "应用程序目录未找到: $APP_DIR"
+        # 列出可用的应用程序目录
+        echo "可用的应用程序目录:"
+        find "${PROJECT_ROOT}/Application" -maxdepth 1 -type d | sed 's|.*/||' | grep -v '^.$'
+        exit 1
+    fi
+    print_success "应用程序目录: $APP_DIR"
 }
 
 # 主函数
