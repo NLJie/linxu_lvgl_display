@@ -170,6 +170,25 @@ verify_environment() {
 
 # 初始化函数
 initialize() {
+
+    # 检查应用程序变量
+    APP_DIR="${PROJECT_ROOT}/Application/${APPLICATION}"
+    if [ -z "$APPLICATION" ]; then
+        print_error "应用程序名称未设置，请使用 -a 选项指定应用程序"
+        print_error "应用程序目录未找到: $APP_DIR"
+        # 列出可用的应用程序目录
+        echo "可用的应用程序目录:"
+        find "${PROJECT_ROOT}/Application" -maxdepth 1 -type d | sed 's|.*/||' | grep -v '^.$'
+        exit 1
+    elif [ ! -d "$APP_DIR" ]; then
+        print_error "应用程序目录未找到: $APP_DIR"
+        # 列出可用的应用程序目录
+        echo "可用的应用程序目录:"
+        find "${PROJECT_ROOT}/Application" -maxdepth 1 -type d | sed 's|.*/||' | grep -v '^.$'
+        exit 1
+    fi
+    # print_success "应用程序目录: $APP_DIR"
+
     # 创建构建目录
     mkdir -p "$BUILD_DIR"
     mkdir -p "$OUTPUT_DIR"
@@ -177,26 +196,27 @@ initialize() {
     print_info "项目初始化完成"
     print_info "平台: $PLATFORM"
     print_info "工具链: $TOOLCHAIN_PATH"
-    print_info "应用程序: $APPLICATION"
+    print_info "编译器: $CC"
+    print_info "应用程序: $APP_DIR"
     print_info "构建目录: $BUILD_DIR"
     print_info "输出目录: $OUTPUT_DIR"
     print_info "============================================================="
 
-    # 检查应用程序变量
-    if [ -z "$APPLICATION" ]; then
-        print_error "应用程序名称未设置，请使用 -a 选项指定应用程序"
-        exit 1
+    # 使用链接文件将应用程序目录链接到构建目录
+    if [ -d "$BUILD_DIR/app" ]; then
+        rm -rf "$BUILD_DIR/app"
     fi
-    # 搜索应用程序目录
-    APP_DIR="${PROJECT_ROOT}/Application/${APPLICATION}"
-    if [ ! -d "$APP_DIR" ]; then
-        print_error "应用程序目录未找到: $APP_DIR"
-        # 列出可用的应用程序目录
-        echo "可用的应用程序目录:"
-        find "${PROJECT_ROOT}/Application" -maxdepth 1 -type d | sed 's|.*/||' | grep -v '^.$'
-        exit 1
+    ln -sf "$APP_DIR" "$BUILD_DIR/app"
+    
+    
+
+    # 链接 LVGL 目录到构建目录
+    if [ -d "$BUILD_DIR/lvgl" ]; then
+        rm -rf "$BUILD_DIR/lvgl"
     fi
-    print_success "应用程序目录: $APP_DIR"
+    ln -sf "$LVGL_DIR" "$BUILD_DIR/lvgl"
+    
+
 }
 
 # 主函数
@@ -206,8 +226,21 @@ main() {
     verify_environment
     initialize
     
-    print_success "构建环境准备完成，可以开始构建"
+    print_success "构建环境准备完成，开始构建,请等待。。。。"
 }
 
 # 执行主函数
 main
+
+
+# 加载编译脚本
+source "$(dirname "$0")/scripts/build_scripts.sh"
+
+# 编译工程
+build_project
+
+# 运行测试
+run_tests
+
+# 打包产物
+package_artifact

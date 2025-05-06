@@ -29,8 +29,7 @@ print_welcome_header
 # 加载环境配置
 source "$(dirname "$0")/scripts/env_setup.sh"
 
-# 加载编译脚本
-source "$(dirname "$0")/scripts/build_scripts.sh"
+
 
 # 主构建逻辑
 main() {
@@ -47,12 +46,9 @@ main() {
     
     # 在这里添加你的构建步骤
     # 例如:
-    build_project
+    
 
-    run_tests
-    
-    package_artifact
-    
+
     print_success "构建流程完成!"
 }
 
