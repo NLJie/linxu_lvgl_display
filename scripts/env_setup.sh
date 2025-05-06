@@ -11,6 +11,8 @@ export PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export BUILD_DIR="${PROJECT_ROOT:-$(pwd)}/build"
 export OUTPUT_DIR="${BUILD_DIR}/output"
 
+D21x_TOOLCHAIN_PATH="${PROJECT_ROOT}/tools/toolchains/riscv64-linux-glibc-x86_64-V2.10.1.tar.gz"
+
 # 根据平台设置工具链路径和编译器
 setup_toolchain() {
     case "$PLATFORM" in
@@ -34,7 +36,19 @@ setup_toolchain() {
             export SIZE="xtensa-esp32-elf-size"
             ;;
         d21x)
-            # ESP32 工具链配置
+            # 检查文件是否存在
+            if [ -f "$D21x_TOOLCHAIN_PATH" ]; then
+                print_info "文件存在: $D21x_TOOLCHAIN_PATH"
+                if [ ! -d "${PROJECT_ROOT}/tools/toolchains/riscv64-linux-glibc-x86_64-V2.10.1" ]; then
+                    print_info "解压工具链..."
+                    tar -xvf "$D21x_TOOLCHAIN_PATH" -C "${PROJECT_ROOT}/tools/toolchains/"
+                fi
+                print_success "工具链解压完成"
+            else
+                print_error "文件不存在: $D21x_TOOLCHAIN_PATH"
+                exit 1
+            fi
+        
             export TOOLCHAIN_PATH="${TOOLCHAIN_PATH:-${PROJECT_ROOT}/tools/toolchains/riscv64-linux-glibc-x86_64-V2.10.1}"
             export CC="riscv64-unknown-linux-gnu-gcc"
             export CXX="riscv64-unknown-linux-gnu-g++"

@@ -28,6 +28,7 @@ print_welcome_header
 # 加载环境配置
 source "$(dirname "$0")/scripts/env_setup.sh"
 
+# 加载编译脚本
 source "$(dirname "$0")/scripts/build_scripts.sh"
 
 # 主构建逻辑
