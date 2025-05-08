@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # 设置项目环境变量
-export PROJECT_NAME="MyLVGLProject"
-export PROJECT_VERSION="1.0.0"
+
 
 # 设置项目根目录
 export PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

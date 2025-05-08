@@ -51,11 +51,13 @@ git submodule update --init --recursive
 
 ### 3. 编译运行
 
-#### 嵌入式平台（以 STM32CubeIDE 为例）
+#### 嵌入式平台（以 D21x 平台编译 P001_D21x_basic_demo 为例）
 
-1. 导入项目到 STM32CubeIDE
+1. 导入项目到 ./build.sh -p d21x -a P001_D21x_basic_demo
 2. 修改 `main.c` 中的屏幕驱动参数
 3. 编译并烧录
+
+
 
 #### 桌面模拟（Linux/macOS/Windows）
 

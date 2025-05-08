@@ -155,8 +155,9 @@ static void set_mouse_cursor_icon(lv_indev_t *indev, lv_display_t *display)
  */
 static lv_indev_t *init_pointer_evdev(lv_display_t *display)
 {
-    const char *input_device = getenv("LV_LINUX_EVDEV_POINTER_DEVICE");
-
+    // const char *input_device = getenv("LV_LINUX_EVDEV_POINTER_DEVICE");
+    const char *input_device = "/dev/input/event0";
+    
     if (input_device == NULL) {
         LV_LOG_USER("Using evdev automatic discovery.");
         lv_evdev_discovery_start(discovery_cb, display);

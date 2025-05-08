@@ -69,7 +69,7 @@
 
 #if LV_USE_STDLIB_MALLOC == LV_STDLIB_BUILTIN
     /** Size of memory available for `lv_malloc()` in bytes (>= 2kB) */
-    #define LV_MEM_SIZE (64 * 1024U)          /**< [bytes] */
+    #define LV_MEM_SIZE (512 * 1024U)          /**< [bytes] */
 
     /** Size of the memory expand for `lv_malloc()` in bytes */
     #define LV_MEM_POOL_EXPAND_SIZE 0
@@ -88,7 +88,7 @@
  *====================*/
 
 /** Default display refresh, input device read and animation step period. */
-#define LV_DEF_REFR_PERIOD  33      /**< [ms] */
+#define LV_DEF_REFR_PERIOD  16      /**< [ms] */
 
 /** Default Dots Per Inch. Used to initialize default sizes such as widgets sized, style paddings.
  * (Not so important, you can adjust it to modify default sizes and spaces.) */
@@ -353,7 +353,7 @@
  *-----------*/
 
 /** Enable log module */
-#define LV_USE_LOG 0
+#define LV_USE_LOG 1
 #if LV_USE_LOG
     /** Set value to one of the following levels of logging detail:
      *  - LV_LOG_LEVEL_TRACE    Log detailed information.
@@ -366,7 +366,7 @@
 
     /** - 1: Print log with 'printf';
      *  - 0: User needs to register a callback with `lv_log_register_print_cb()`. */
-    #define LV_LOG_PRINTF 0
+    #define LV_LOG_PRINTF 1
 
     /** Set callback to print logs.
      *  E.g `my_print`. The prototype should be `void my_print(lv_log_level_t level, const char * buf)`.
@@ -574,7 +574,7 @@
 #define LV_FONT_MONTSERRAT_10 0
 #define LV_FONT_MONTSERRAT_12 0
 #define LV_FONT_MONTSERRAT_14 1
-#define LV_FONT_MONTSERRAT_16 0
+#define LV_FONT_MONTSERRAT_16 1
 #define LV_FONT_MONTSERRAT_18 0
 #define LV_FONT_MONTSERRAT_20 1
 #define LV_FONT_MONTSERRAT_22 0
@@ -994,14 +994,14 @@
 #define LV_USE_SNAPSHOT 0
 
 /** 1: Enable system monitor component */
-#define LV_USE_SYSMON   0
+#define LV_USE_SYSMON   1
 #if LV_USE_SYSMON
     /** Get the idle percentage. E.g. uint32_t my_get_idle(void); */
     #define LV_SYSMON_GET_IDLE lv_os_get_idle_percent
 
     /** 1: Show CPU usage and FPS count.
      *  - Requires `LV_USE_SYSMON = 1` */
-    #define LV_USE_PERF_MONITOR 0
+    #define LV_USE_PERF_MONITOR 1
     #if LV_USE_PERF_MONITOR
         #define LV_USE_PERF_MONITOR_POS LV_ALIGN_BOTTOM_RIGHT
 
@@ -1185,7 +1185,7 @@
     #define LV_LINUX_FBDEV_BSD           0
     #define LV_LINUX_FBDEV_RENDER_MODE   LV_DISPLAY_RENDER_MODE_PARTIAL
     #define LV_LINUX_FBDEV_BUFFER_COUNT  0
-    #define LV_LINUX_FBDEV_BUFFER_SIZE   60
+    #define LV_LINUX_FBDEV_BUFFER_SIZE   1024
     #define LV_LINUX_FBDEV_MMAP          1
 #endif
 
@@ -1233,7 +1233,7 @@
 #define LV_USE_TFT_ESPI         0
 
 /** Driver for evdev input devices */
-#define LV_USE_EVDEV    0
+#define LV_USE_EVDEV    1
 
 /** Driver for libinput input devices */
 #define LV_USE_LIBINPUT    0

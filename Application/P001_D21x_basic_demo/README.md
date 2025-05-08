@@ -1,6 +1,7 @@
 # 基础案例工程
 
-
+LV_USE_SYSMON 1
+LV_USE_PERF_MONITOR 1
 
 # 提升帧率的方法
 

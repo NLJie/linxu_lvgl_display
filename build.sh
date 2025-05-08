@@ -20,6 +20,10 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
+
+export PROJECT_NAME="${APPLICATION}"
+export PROJECT_VERSION="1.0.0"
+
 # 加载工具函数
 source "$(dirname "$0")/scripts/utils.sh"
 
@@ -28,7 +32,6 @@ print_welcome_header
 
 # 加载环境配置
 source "$(dirname "$0")/scripts/env_setup.sh"
-
 
 
 # 主构建逻辑

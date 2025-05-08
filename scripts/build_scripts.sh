@@ -8,8 +8,9 @@ build_project() {
 
     # 进入构建目录 
     cd "$BUILD_DIR" || exit 1
+
     cmake -B output -S app -DCMAKE_C_COMPILER=${CC} \
-                      -DCMAKE_CXX_COMPILER=${CXX} > "${LOG_FILE}" 2>&1
+                      -DCMAKE_CXX_COMPILER=${CXX}  > "${LOG_FILE}" 2>&1
 
     if [ $? -ne 0 ]; then
         print_error "CMake 配置错误......"
